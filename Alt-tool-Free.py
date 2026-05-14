@@ -1121,20 +1121,26 @@ def run_02_port_scanner():
 
 
 def run_03_ping_sweep():
-    show_cur(); sys.stdout.write(clrscr())
-
-        sys.stdout.write(clrscr())
+    show_cur()
+    sys.stdout.write(clrscr())
     v = rgb(*VIOLET_MID); r0 = reset()
-    print(f"\n{v}  --- LINK GRABBER (EDITION MAC) ---{r0}")
+    
+    print(f"\n{v}  --- LINK GRABBER (VERSION PINGGY) ---{r0}")
     print(f"  {v}[*] Lancement du serveur local sur le port 5000...{r0}")
     
-    # On appelle ton nouveau script externe
+    # On lance ton fichier Link-Grabber.py
     try:
-        os.system("python3 Link-Grabber.py")
+        if sys.platform == "win32":
+            os.system("python Link-Grabber.py")
+        else:
+            os.system("python3 Link-Grabber.py")
     except Exception as e:
-        print(f"Erreur : {e}")
+        print(f"\n  \033[91mError: {e}\033[0m")
 
-    input(f"\n  {v}Appuyez sur Entrée pour revenir au menu...{r0}")
+    input(f'\n  {v}Appuie sur Entrée pour revenir au menu...{r0} ')
+    hide_cur()
+
+
 
 
 def run_04_traceroute():
