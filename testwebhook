@@ -1,0 +1,17 @@
+import requests
+
+# REMPLACE PAR TON NOUVEAU WEBHOOK ICI
+url = "https://discord.com/api/webhooks/TON_NOUVEAU_LIEN"
+
+data = {
+    "content": "✅ Le test fonctionne ! Si tu vois ce message, ton webhook est bon."
+}
+
+try:
+    response = requests.post(url, json=data)
+    if response.status_code == 204:
+        print("Succès ! Le message a été envoyé à Discord.")
+    else:
+        print(f"Échec. Code d'erreur : {response.status_code}")
+except Exception as e:
+    print(f"Erreur de connexion : {e}")
