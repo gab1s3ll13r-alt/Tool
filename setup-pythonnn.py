@@ -4,7 +4,6 @@ import sys
 modules = [
     "requests",
     "flask",
-    "pyngrok",
     "phonenumbers",
     "pefile",
     "python-magic-bin",
