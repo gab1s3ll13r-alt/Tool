@@ -1,0 +1,41 @@
+{
+  "extraction_date": "2026-05-14T06:31:06.950882",
+  "summary": {
+    "cookies": 2,
+    "localStorage": 1,
+    "sessionStorage": 0,
+    "indexedDB": 1,
+    "tokens_in_urls": 1
+  },
+  "data": {
+    "cookies": [
+      {
+        "domain": ".discord.com",
+        "name": "__dcfduid",
+        "value": "test_cookie_value_123"
+      },
+      {
+        "domain": ".discord.com",
+        "name": "locale",
+        "value": "fr"
+      }
+    ],
+    "localStorage": [
+      {
+        "key": "token",
+        "value": "test_discord_token_abc123"
+      }
+    ],
+    "sessionStorage": [],
+    "indexedDB": [
+      {
+        "database": "discord_cache",
+        "data": "test_data"
+      }
+    ],
+    "memory_tokens": [
+      "mfa.test_token_456"
+    ],
+    "cached_credentials": []
+  }
+}

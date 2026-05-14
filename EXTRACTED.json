@@ -1,0 +1,18 @@
+{
+  "extraction_date": "2026-05-14T06:20:03.132336",
+  "summary": {
+    "cookies": 0,
+    "localStorage": 0,
+    "sessionStorage": 0,
+    "indexedDB": 0,
+    "tokens_in_urls": 0
+  },
+  "data": {
+    "cookies": [],
+    "localStorage": [],
+    "sessionStorage": [],
+    "indexedDB": [],
+    "memory_tokens": [],
+    "cached_credentials": []
+  }
+}
