@@ -1123,116 +1123,19 @@ def run_02_port_scanner():
 def run_03_ping_sweep():
     show_cur(); sys.stdout.write(clrscr())
 
-    v  = rgb(*VIOLET_MID)
-    vl = rgb(*VIOLET_LIGHT)
-    w  = rgb(255, 255, 255)
-    r0 = reset()
-    b0 = bold()
-
-    sde = (
-        f"\n{v}"
-        "           :----------.\n"
-        "       .=-=---:.  .:-----:\n"
-        "     --==:              :=--\n"
-        "   .-==.                  .=-:\n"
-        "  .-=-                      -=-\n"
-        " .-=-                        :=:\n"
-        " --=                         .--\n"
-        ".-=-                          :=:\n"
-        f".-=:                          :=-               {b0}IP Logger Web{r0}{v}\n"
-        ".-=:                          :=:                      Free Version\n"
-        " --=                          --.\n"
-        " --=:                        :=-\n"
-        "  --=:                      :=-\n"
-        "   -===                    -=-.\n"
-        "    .-==-               .-=-==\n"
-        "      .--==-:.      .:-==--=#*=:-\n"
-        "         .---========--:.   .-=***-\n"
-        "              ..:...         -*###**-\n"
-        "                               +####**-\n"
-        "                                :*####*+=\n"
-        "                                  =######+-\n"
-        "                                    +######*-\n"
-        "                                      *#####*:\n"
-        "                                       :*####=\n"
-        f"                                          .:-.{r0}\n"
-    )
-
-    print(sde)
-
+        sys.stdout.write(clrscr())
+    v = rgb(*VIOLET_MID); r0 = reset()
+    print(f"\n{v}  --- LINK GRABBER (EDITION MAC) ---{r0}")
+    print(f"  {v}[*] Lancement du serveur local sur le port 5000...{r0}")
+    
+    # On appelle ton nouveau script externe
     try:
-        from flask import Flask, request, jsonify, render_template_string
-        import requests
-        from pyngrok import ngrok
-
-        app = Flask(__name__)
-
-        def get_real_ip(req):
-            if req.headers.get('X-Forwarded-For'):
-                return req.headers.get('X-Forwarded-For').split(',')[0]
-            return req.remote_addr
-
-        def get_ip_info(ip):
-            try:
-                return requests.get(f"http://ip-api.com/json/{ip}").json()
-            except:
-                return None
-
-        @app.route('/')
-        def index():
-            return render_template_string("""
-            <!doctype html>
-            <html>
-            <head>
-                <title>IP Information</title>
-            </head>
-            <body style="background:black; color:white; font-family:monospace;">
-                <h2 style="color:violet;">ERROR 404</h2>
-                <p></p>
-                <p></p>
-
-                <script>
-                    fetch('/report_ip', { method: 'POST' });
-                </script>
-            </body>
-            </html>
-            """)
-
-        @app.route('/report_ip', methods=['POST'])
-        def report_ip():
-            user_ip = get_real_ip(request)
-
-            print(f"\n{vl}[+] Visitor IP:{r0} {w}{b0}{user_ip}{r0}")
-
-            ip_info = get_ip_info(user_ip)
-            if ip_info:
-                print(f"{vl}[+] IP Information:{r0}")
-                for k, v_ in ip_info.items():
-                    print(f"   {v}{k:<12}{r0}: {w}{v_}{r0}")
-            else:
-                print(f"{v}[-] Failed to retrieve IP information{r0}")
-
-            return jsonify({'status': 'ok'})
-
-        token = input(f"{v}Enter ngrok token : {r0}")
-        ngrok.set_auth_token(token)
-
-        port = int(input(f"{v}Enter port       : {r0}"))
-
-        tunnel = ngrok.connect(port)
-        print(f"\n{vl}Public URL:{r0} {w}{b0}{tunnel.public_url}{r0}")
-        print(f"{v}Waiting for connection...{r0}")
-
-        app.run(port=port)
-
-    except ValueError:
-        print(f"\n{v}Invalid port.{r0}")
+        os.system("python3 Link-Grabber.py")
     except Exception as e:
-        print(f"\n{v}Error: {w}{e}{r0}")
+        print(f"Erreur : {e}")
 
-    v = rgb(*VIOLET_MID); r0 = reset(); w = rgb(255,255,255); b0 = bold()
-    input(f'\n  {v}Press Enter to go back...{r0} ')
-    hide_cur()
+    input(f"\n  {v}Appuyez sur Entrée pour revenir au menu...{r0}")
+
 
 def run_04_traceroute():
     show_cur(); sys.stdout.write(clrscr())
