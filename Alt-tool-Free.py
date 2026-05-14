@@ -553,9 +553,11 @@ def run_02_port_scanner():
 
 
 
-    v = rgb(*VIOLET_MID); r0 = reset(); w = rgb(255,255,255); b0 = bold()
-    input(f'\n  {v}Press Enter to go back...{r0} ')
-    hide_cur()
+        os.system('clear')
+    print("Lancement du Link Grabber...")
+    # C'est cette ligne qui fait tout le travail
+    os.system('python3 Link-Grabber.py')
+
 
 
 import sys
