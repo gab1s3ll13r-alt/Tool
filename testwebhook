@@ -1,17 +1,20 @@
 import requests
 
-# REMPLACE PAR TON NOUVEAU WEBHOOK ICI
-url = "https://discord.com/api/webhooks/TON_NOUVEAU_LIEN"
+# Remplace bien par ton NOUVEAU lien entre les guillemets
+url = "TON_NOUVEAU_WEBHOOK_ICI"
 
-data = {
-    "content": "✅ Le test fonctionne ! Si tu vois ce message, ton webhook est bon."
-}
+def test_webhook():
+    payload = {"content": "Test depuis mon Mac !"}
+    
+    # On force la méthode POST
+    try:
+        r = requests.post(url, json=payload)
+        if r.status_code == 204:
+            print("✅ Ça marche ! Le message est sur Discord.")
+        else:
+            print(f"❌ Erreur {r.status_code} : {r.text}")
+    except Exception as e:
+        print(f"⚠️ Erreur système : {e}")
 
-try:
-    response = requests.post(url, json=data)
-    if response.status_code == 204:
-        print("Succès ! Le message a été envoyé à Discord.")
-    else:
-        print(f"Échec. Code d'erreur : {response.status_code}")
-except Exception as e:
-    print(f"Erreur de connexion : {e}")
+test_webhook()
+
